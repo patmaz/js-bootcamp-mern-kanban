@@ -27,6 +27,20 @@ export function addNote(req, res) {
   });
 }
 
+export function editNote(req, res) {
+  if (!req.body.task) {
+    res.status(403).end();
+  }
+
+  Note.findOneAndUpdate({ id: req.params.noteId }, req.body, (err, old) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+
+    res.json({ old });
+  });
+}
+
 export function deleteNote(req, res) {
   Note.findOne({ id: req.params.noteId }, (err, note) => {
     if (err) {
