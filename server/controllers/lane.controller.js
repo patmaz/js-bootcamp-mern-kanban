@@ -21,6 +21,19 @@ export function addLane(req, res) {
   });
 }
 
+export function changeLaneName(req, res) {
+  if (!req.body.name) {
+    res.status(403).end();
+  }
+
+  Lane.findOneAndUpdate({ id: req.params.laneId }, { name: req.body.name }, (err, old) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    res.json({ old });
+  });
+}
+
 export function getLanes(req, res) {
   Lane.find().exec((err, lanes) => {
     if (err) {
