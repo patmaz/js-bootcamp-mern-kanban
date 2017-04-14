@@ -7,4 +7,9 @@ const laneSchema = new Schema({
   notes: [{ type: Schema.ObjectId, ref: 'Note', required: true }],
 });
 
+laneSchema.pre('find', function (next) {
+  this.populate('notes');
+  next();
+});
+
 export default mongoose.model('Lane', laneSchema);
